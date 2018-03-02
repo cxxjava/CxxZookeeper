@@ -1,0 +1,99 @@
+################OPTION###################
+# release or debug
+VERTYPE=RELEASE
+
+KERNEL:=$(shell uname)
+LIBDIR = linux
+CPPSTD = c++11
+GLIBC = 2.2.5
+
+ARCH:=$(shell uname -m)
+RC:=$(ARCH)
+BIT32:=i686
+BIT64:=x86_64
+
+ifeq ($(KERNEL),Darwin)
+    LIBDIR = osx
+    GLIBC = 0
+    SHAREDLIB = -lefc64 -leso64 -ldl -lpthread -lcrypto -lssl libjemalloc.a
+else
+    ifeq ($(RC),$(BIT32))
+        SHAREDLIB = -Wl,-Bstatic -lefc32 -leso32 -ljemalloc -Wl,-Bdynamic -lrt -lm -ldl -lpthread -lcrypto -lssl
+    else
+        SHAREDLIB = -Wl,-Bstatic -lefc64 -leso64 -ljemalloc -Wl,-Bdynamic -ldl -lpthread -lcrypto -lssl
+    endif
+endif
+
+$(info KERNEL=$(KERNEL))
+$(info ARCH=$(ARCH))
+$(info GLIBC=$(GLIBC))
+
+ifeq ($(VERTYPE), RELEASE)
+CCOMPILEOPTION = -c -g -O2 -D__MAIN__
+CPPCOMPILEOPTION = -std=$(CPPSTD) -c -O2 -fpermissive -D__MAIN__
+ZOOKEEPER = zk
+else
+CCOMPILEOPTION = -c -g -D__MAIN__
+CPPCOMPILEOPTION = -std=$(CPPSTD) -c -g -fpermissive -DDEBUG -D__MAIN__
+ZOOKEEPER = zk_d
+endif
+
+CCOMPILE = gcc
+CPPCOMPILE = g++
+INCLUDEDIR = \
+	-I../../efc \
+	-I../../elog \
+	-I../../elog/inc \
+	-I../../CxxJDK/efc \
+	-I../../CxxLog4j \
+	-I../../CxxLog4j/inc \
+	-I../jute/inc \
+	-I../zookeeper \
+	-I../zookeeper/common \
+	-I../zookeeper/data \
+	-I../zookeeper/proto \
+	-I../zookeeper/txn \
+	-I../zookeeper/version \
+	-I../zookeeper/server \
+	-I../zookeeper/server/auth \
+	-I../zookeeper/server/persistence \
+	-I../zookeeper/server/quorum \
+	-I../zookeeper/server/upgrade \
+	-I../zookeeper/server/util \
+	-I../ \
+	-I/usr/local/Cellar/openssl/1.0.2g/include \
+
+LINK = g++
+LINKOPTION = -std=$(CPPSTD) -g
+ifeq ($(GLIBC),2.2.5)
+	LINKOPTION += -Wl,--wrap=memcpy
+endif
+LIBDIRS = -L../../efc/lib/$(LIBDIR) -L../../CxxJDK/lib/$(LIBDIR)
+APPENDLIB = 
+
+BASE_SRC += $(sort $(wildcard ../jute/src/*.cpp ../zookeeper/*.cpp ../zookeeper/common/*.cpp ../zookeeper/data/*.cpp ../zookeeper/proto/*.cpp ../zookeeper/txn/*.cpp ../zookeeper/version/*.cpp ../zookeeper/server/*.cpp ../zookeeper/server/auth/*.cpp ../zookeeper/server/persistence/*.cpp ../zookeeper/server/quorum/*.cpp ../zookeeper/server/upgrade/*.cpp ../zookeeper/server/util/*.cpp))
+BASE_SRC += $(sort $(wildcard ../../elog/src/*.cpp ./../CxxLog4j/src/*.cpp))
+BASE_OBJS   += $(patsubst %.cpp,%.o, $(patsubst %.c,%.o, $(BASE_SRC)))
+
+ZOOKEEPER_OBJS = \
+
+ifeq ($(GLIBC),2.2.5)
+	ZOOKEEPER_OBJS += memcpy.o throw.o
+endif
+
+$(ZOOKEEPER): $(BASE_OBJS) $(ZOOKEEPER_OBJS) $(APPENDLIB)
+	$(LINK) $(LINKOPTION) -o $(ZOOKEEPER) $(LIBDIRS) $(BASE_OBJS) $(ZOOKEEPER_OBJS) $(SHAREDLIB) $(APPENDLIB)
+
+clean: 
+	rm -f $(BASE_OBJS) $(ZOOKEEPER_OBJS)
+
+all: clean $(ZOOKEEPER) clean
+.PRECIOUS:%.cpp %.c
+.SUFFIXES:
+.SUFFIXES:  .c .o .cpp
+
+.cpp.o:
+	$(CPPCOMPILE) -c -o $*.o $(CPPCOMPILEOPTION) $(INCLUDEDIR)  $*.cpp
+
+.c.o:
+	$(CCOMPILE) -c -o $*.o $(CCOMPILEOPTION) $(INCLUDEDIR) $*.c
