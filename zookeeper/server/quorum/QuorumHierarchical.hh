@@ -166,7 +166,7 @@ private:
 
 				numGroups++;
 
-				EArrayList<EString*> parts = EPattern::split(":", val->c_str(), 0);
+				EArray<EString*> parts = EPattern::split(":", val->c_str(), 0);
 				for (int i=0; i<parts.size(); i++) {
 					EString* s = parts[i];
 					llong sid = ELLong::parseLLong(s->c_str());

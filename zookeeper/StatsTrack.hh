@@ -47,7 +47,7 @@ public:
             stats = "count=-1,bytes=-1";
          }
     	 */
-        EArrayList<EString*> split = EPattern::split(",", stats.c_str(), 0);
+        EArray<EString*> split = EPattern::split(",", stats.c_str(), 0);
         if (split.size() != 2) {
             throw EIllegalArgumentException(__FILE__, __LINE__, ("invalid string " + stats).c_str());
         }

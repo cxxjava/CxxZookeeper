@@ -11,6 +11,10 @@
 namespace efc {
 namespace ezk {
 
+Observer::~Observer() {
+	//
+}
+
 Observer::Observer(QuorumPeer* self, sp<ObserverZooKeeperServer> observerZooKeeperServer) {
 	this->self = self;
 	this->zk=observerZooKeeperServer;

@@ -215,7 +215,7 @@ public:
 
     virtual sp<EInetSocketAddress> getRemoteSocketAddress() {
         if (sock->isOpen() == false) {
-            return null;
+            return null; //???
         }
         return new EInetSocketAddress(*(sock->socket()->getRemoteSocketAddress()));
     }

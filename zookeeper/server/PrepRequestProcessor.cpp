@@ -78,7 +78,7 @@ sp<ZooKeeperServer::ChangeRecord> PrepRequestProcessor::getRecordForPath(EString
 		}
 	}}
 	if (lastChange == null || lastChange->stat == null) {
-		throw NoNodeException(__FILE__, __LINE__, path);
+		throw NoNodeException(__FILE__, __LINE__, path); //cxxjava: it's too slow when stack trace opened!!!
 	}
 	return lastChange;
 }

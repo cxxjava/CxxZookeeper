@@ -35,6 +35,8 @@ public:
     // This is the same object as this.zk, but we cache the downcast op
     sp<FollowerZooKeeperServer> fzk;
     
+    virtual ~Follower();
+
     Follower(QuorumPeer* self, sp<FollowerZooKeeperServer> zk);
 
     virtual EString toString() {

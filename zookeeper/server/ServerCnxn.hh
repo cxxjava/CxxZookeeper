@@ -264,7 +264,7 @@ public:
 
 			EString commands = ESystem::getProperty(ZOOKEEPER_4LW_COMMANDS_WHITELIST.c_str());
 			if (!commands.isEmpty()) {
-				EArrayList<EString*> list = EPattern::split(",", commands.c_str(), 0);
+				EArray<EString*> list = EPattern::split(",", commands.c_str(), 0);
 				sp<EIterator<EString*> > iter = list.iterator();
 				while (iter->hasNext()) {
 					EString cmd = iter->next()->trim();

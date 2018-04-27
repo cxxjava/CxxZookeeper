@@ -20,6 +20,11 @@ MAIN_IMPL(zookeeper) {
 	LOG("| https://github.com/cxxjava         |");
 	LOG("======================================");
 
+#ifdef DEBUG
+	EThread::setDefaultStackSize(1024*1000);
+	EThrowable::setStackTrace(true);
+#endif
+
 	ESystem::init(argc, argv);
 	ELoggerManager::init("log4e.properties");
 

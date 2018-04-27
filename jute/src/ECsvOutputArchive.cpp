@@ -78,7 +78,7 @@ ECsvOutputArchive::~ECsvOutputArchive() {
 }
 
 ECsvOutputArchive::ECsvOutputArchive(EOutputStream* out, bool owned) :
-		out(out), stream(new EBufferedOutputStream(out, owned), true, true), isFirst(true) {
+		out(out), stream(new EBufferedOutputStream(out, 8192, owned), true, true), isFirst(true) {
 }
 
 void ECsvOutputArchive::writeByte(byte b, const char* tag) {

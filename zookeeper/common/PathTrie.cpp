@@ -191,7 +191,7 @@ PathTrie::PathTrie() {
 }
 
 void PathTrie::addPath(EString path) {
-	EArrayList<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
+	EArray<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
 	sp<TrieNode> parent = dynamic_pointer_cast<TrieNode>(rootNode);
 	EString* part = null;
 	if (pathComponents.size() <= 1) {
@@ -210,7 +210,7 @@ void PathTrie::addPath(EString path) {
 }
 
 void PathTrie::deletePath(EString path) {
-	EArrayList<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
+	EArray<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
 	sp<TrieNode> parent = dynamic_pointer_cast<TrieNode>(rootNode);
 	EString* part = null;
 	if (pathComponents.size() <= 1) {
@@ -235,7 +235,7 @@ EString PathTrie::findMaxPrefix(EString path) {
 	if (path.equals("/")) {
 		return path;
 	}
-	EArrayList<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
+	EArray<EString*> pathComponents = EPattern::split("/", path.c_str(), 0);
 	sp<TrieNode> parent = dynamic_pointer_cast<TrieNode>(rootNode);
 	if (pathComponents.size() <= 1) {
 		EString msg("Invalid path ");

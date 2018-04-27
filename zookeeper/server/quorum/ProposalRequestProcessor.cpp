@@ -28,7 +28,7 @@ void ProposalRequestProcessor::processRequest(sp<Request> request) {
 	if (lsr != null) {
 		zks->getLeader()->processSync(lsr);
 	} else {
-			nextProcessor->processRequest(request);
+        nextProcessor->processRequest(request);
 		if (request->hdr != null) {
 			// We need to sync and get consensus on any transactions
 			try {

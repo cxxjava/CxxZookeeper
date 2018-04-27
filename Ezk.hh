@@ -8,7 +8,7 @@
 #ifndef __EZK_HH__
 #define __EZK_HH__
 
-#define EZK_VERSION "0.1.0"
+#define EZK_VERSION "0.1.1"
 
 #include "Efc.hh"
 #include "ELog.hh"

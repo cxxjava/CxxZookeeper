@@ -12,6 +12,10 @@
 namespace efc {
 namespace ezk {
 
+Follower::~Follower() {
+	//
+}
+
 Follower::Follower(QuorumPeer* self, sp<FollowerZooKeeperServer> zk) :
 		lastQueued(0) {
 	this->self = self;

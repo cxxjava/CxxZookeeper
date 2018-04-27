@@ -156,7 +156,7 @@ public:
 
 			quorumPeer.setQuorumCnxnThreadsSize(
 					config.quorumCnxnThreadsSize);
-			quorumPeer.initialize();
+			//quorumPeer.initialize(); // repeated!!
 
 			quorumPeer.start();
 			quorumPeer.join();

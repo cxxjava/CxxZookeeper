@@ -36,6 +36,8 @@ class ObserverZooKeeperServer;
 
 class Observer : public Learner {
 public:
+	virtual ~Observer();
+
     Observer(QuorumPeer* self, sp<ObserverZooKeeperServer> observerZooKeeperServer);
 
     virtual EString toString() {

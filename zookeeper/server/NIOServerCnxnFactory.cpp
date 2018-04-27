@@ -87,6 +87,9 @@ void NIOServerCnxnFactory::run() {
 				if ((k->readyOps() & ESelectionKey::OP_ACCEPT) != 0) {
 					sp<ESocketChannel> sc = (dynamic_pointer_cast<EServerSocketChannel>(k
 							->channel()))->accept();
+					if (sc == null) {
+						continue; //!!!
+					}
 					EInetAddress* ia = sc->socket()->getInetAddress();
 					int cnxncount = getClientCnxnCount(ia);
 					if (maxClientCnxns > 0 && cnxncount >= maxClientCnxns){
