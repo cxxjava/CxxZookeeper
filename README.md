@@ -18,7 +18,7 @@ chinese version: [简体中文](README.zh_cn.md)
 * Cross platform: support Linux32/64, OSX64, Win64 platforms;
 
 #### Compare
-* Performance: At no further optimization, the performance of the released c++ version of ZK is close to the Java version, and the data obtained by the zk-latencies.py test are basically the same.
+* Performance: After some optimization, the overall performance of the release version now exceeds the Java version, and the program runs very stable uses zk-latencies.py test.
 * Memory use: The c++ version of ZK has an obvious advantage, with a less than one order of magnitude than the Java version, and no GC.
 * See more testing report in the future.
 
